@@ -1,3 +1,13 @@
+function Test(quien){
+	if(quien == 'usuario'){
+		$('#email').val('a');
+		$('#password').val('a');
+	}
+	else{
+		$('#email').val('z');
+		$('#password').val('z');
+	}
+}
 function RealizarModificacion(){
 	var foto = $('#foto').val();
 	var email = $('#email').val();
@@ -289,6 +299,7 @@ function LogIn()
 	var email = $('#email').val();
 	var password = $('#password').val();
 	var recordarme = $('#recordarme').prop('checked');
+	console.log(recordarme);
 	//Validar que los campos no estén vacíos
 	if(email == ''){
 		$('#mensajeError').html('Debe ingresar el correo');

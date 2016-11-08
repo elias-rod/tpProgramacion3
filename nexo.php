@@ -1,16 +1,16 @@
 <?php
 session_start();
 //CREACIÓN DE LA CONEXIÓN CON EL SERVIDOR
-$servername = 'mysql.hostinger.es';
+/*$servername = 'mysql.hostinger.es';
 $username = 'u636713032_root';
 $password = 'garbarino';
-$dbname = 'u636713032_estac';
+$dbname = 'u636713032_estac';*/
 
-/*LOCAL
+//LOCAL
 $servername = 'localhost';
 $username = 'root';
 $password = '';
-$dbname = 'estacionamiento';*/
+$dbname = 'estacionamiento';
 
 try{
 	$conexion = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -70,7 +70,7 @@ switch ($_POST['accion']){
 	    	echo 'desconocido';
 	    }
 	    //CREACION DE COOKIE
-		if ($_POST['recordar']) {
+		if ($_POST['recordar'] == 'true') {
 			setcookie('email', $_POST['emailIngresado'], time() + (86400 * 30), "/"); // 86400 = 1 day
 		}
 		break;
@@ -186,8 +186,10 @@ switch ($_POST['accion']){
 	case 'ingresar':
 		if (ComprobarLogueo($conexion)) {
 			//VERFICACIÓN CONTRA PATENTES DUPLICADAS
-	    	$consulta = $conexion->prepare('SELECT * FROM vehiculos WHERE patente = :patente');
+			$presente = 1;
+	    	$consulta = $conexion->prepare('SELECT * FROM vehiculos WHERE patente = :patente AND presente = :presente');
 			$consulta->bindParam(':patente', $_POST['patente']);
+			$consulta->bindParam(':presente', $presente);
 		    $consulta->execute();
 			$resultado = $consulta->fetch();
 			if ($resultado != '') {
